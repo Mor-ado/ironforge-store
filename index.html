@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IronForge Gym Store | Home</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">IronForge</div>
+        <ul class="nav-links">
+            <li><a href="index.html" style="color: #ff4500;">Home</a></li>
+            <li><a href="equipment.html">Equipment</a></li>
+            <li><a href="apparel.html">Apparel</a></li>
+            <li><a href="supplements.html">Supplements</a></li>
+        </ul>
+        <div class="nav-actions">
+            <a href="#">Log In</a>
+            <a href="javascript:void(0)" onclick="toggleCart()">Cart (0)</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <h1>Gear Up. Push Harder.</h1>
+        <p>Premium equipment and supplements for your fitness journey.</p>
+    </header>
+
+    <section class="products">
+        <h2>Featured Products</h2>
+        <div class="product-grid">
+            
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 IronForge Gym Store. All rights reserved.</p>
+    </footer>
+
+    <script type="module">
+    import { loadProducts } from './script.js';
+    loadProducts("All"); 
+    </script>
+
+<div id="cartSidebar" class="sidebar">
+    <div class="sidebar-header">
+        <h2>Your Cart</h2>
+        <button onclick="toggleCart()" class="close-btn">&times;</button>
+    </div>
+    <div id="cartItemsContainer"></div>
+    <div class="sidebar-footer">
+        <div class="total-row"><span>Total:</span><span id="cartTotalDisplay">DT0.00</span></div>
+        <button class="checkout-btn">Checkout</button>
+    </div>
+</div>
+<div id="cartOverlay" onclick="toggleCart()"></div>
+
+</body>
+</html>

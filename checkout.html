@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IronForge | Secure Checkout</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .checkout-container { max-width: 600px; margin: 3rem auto; background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .checkout-container h2 { border-bottom: 2px solid #ff4500; padding-bottom: 10px; margin-bottom: 20px; }
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
+        .form-group input, .form-group textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 4px; font-size: 1rem; }
+        .legal-box { background: #fff5f5; border: 1px solid #ffcccc; padding: 15px; border-radius: 4px; margin-bottom: 20px; display: flex; gap: 10px; align-items: flex-start; }
+        .legal-box input { margin-top: 5px; }
+        .legal-box label { font-size: 0.9rem; color: #d32f2f; font-weight: bold; }
+        .order-summary { background: #f9f9f9; padding: 15px; border-radius: 4px; margin-bottom: 20px; }
+        .confirm-btn { background: #111; color: white; border: none; padding: 15px; width: 100%; font-size: 1.1rem; font-weight: bold; cursor: pointer; border-radius: 5px; transition: 0.3s; }
+        .confirm-btn:hover { background: #ff4500; }
+    </style>
+</head>
+<body>
+    <nav class="navbar" style="background:#111; padding: 1rem; display: flex; justify-content: space-between;">
+        <div class="logo" style="color: #ff4500; font-weight: bold; font-size: 1.5rem;">IronForge</div>
+        <a href="MainPage.html" style="color:white; text-decoration:none;">&larr; Back to Store</a>
+    </nav>
+
+    <div class="checkout-container">
+        <h2>Delivery Details</h2>
+        
+        <!-- IF THIS IS MISSING, THE SCRIPT BREAKS -->
+        <div id="orderSummary" class="order-summary">
+            Loading your gains...
+        </div>
+
+        <form id="checkoutForm">
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" id="custName" placeholder="Enter your full name" required>
+            </div>
+            <div class="form-group">
+                <label>Phone Number</label>
+                <input type="tel" id="custPhone" placeholder="Enter your mobile number" required>
+            </div>
+            <div class="form-group">
+                <label>Full Delivery Address</label>
+                <textarea id="custAddress" rows="3" placeholder="Street, City, Zip Code" required></textarea>
+            </div>
+
+            <div class="legal-box">
+                <input type="checkbox" id="legalAgree" required>
+                <label for="legalAgree">
+                    I hereby agree to legal prosecution and responsibility for shipping costs if I ignore or refuse the delivery without a valid reason.
+                </label>
+            </div>
+
+            <button type="submit" class="confirm-btn">Confirm Order (Cash on Delivery)</button>
+        </form>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        // Use your existing config
+        const firebaseConfig = {
+            apiKey: "AIzaSyAon06Q_-8RMHdnq4JI4Sxycp59kbe5qIA",
+            authDomain: "ironforge-2f688.firebaseapp.com",
+            databaseURL: "https://ironforge-2f688-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "ironforge-2f688",
+            storageBucket: "ironforge-2f688.firebasestorage.app",
+            messagingSenderId: "670669941434",
+            appId: "1:670669941434:web:73794b7d378cfb32883083"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // Show total from LocalStorage
+        const cart = JSON.parse(localStorage.getItem('gymCart')) || [];
+        const total = cart.reduce((sum, item) => sum + parseFloat(item.price), 0);
+        document.getElementById('orderSummary').innerHTML = `<strong>Total Items:</strong> ${cart.length} <br> <strong>Total Price:</strong> DT${total}.00`;
+
+        // Handle Order Submission
+        document.getElementById('checkoutForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const orderData = {
+                customerName: document.getElementById('custName').value,
+                phone: document.getElementById('custPhone').value,
+                address: document.getElementById('custAddress').value,
+                items: cart,
+                totalAmount: total,
+                status: "Pending",
+                timestamp: new Date().toISOString()
+            };
+
+            // Push order to Firebase under a new "orders" collection
+            const ordersRef = ref(db, 'orders');
+            const newOrderRef = push(ordersRef);
+            
+            set(newOrderRef, orderData)
+                .then(() => {
+                    alert("Order Confirmed! Prepare for the gains.");
+                    localStorage.removeItem('gymCart'); // Clear cart
+                    window.location.href = "MainPage.html";
+                })
+                .catch((error) => alert("Error: " + error.message));
+        });
+    </script>
+</body>
+</html>

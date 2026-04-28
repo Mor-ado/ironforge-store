@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IronForge | Login</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .login-container {
+            max-width: 400px;
+            margin: 5rem auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .login-container h2 { margin-bottom: 1.5rem; text-align: center; }
+        .form-group { margin-bottom: 1rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; }
+        .form-group input { width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 4px; }
+        .login-btn { width: 100%; background: #ff4500; color: white; border: none; padding: 1rem; cursor: pointer; font-weight: bold; border-radius: 4px; }
+        .login-btn:hover { background: #e63e00; }
+        .signup-link { text-align: center; margin-top: 1rem; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">IronForge</div>
+        <ul class="nav-links">
+            <li><a href="MainPage.html">Home</a></li>
+            <li><a href="equipment.html">Equipment</a></li>
+        </ul>
+    </nav>
+
+    <div class="login-container">
+        <h2>Member Login</h2>
+        <form id="loginForm">
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" placeholder="Enter your email" required>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" placeholder="Enter password" required>
+            </div>
+            <button type="submit" class="login-btn">Log In</button>
+        </form>
+        <p class="signup-link">Don't have an account? <a href="#">Sign up here</a></p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IronForge | Apparel</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- 1. Cart Sidebar (Must be inside body for proper rendering) -->
+    <div id="cartSidebar" class="sidebar">
+        <div class="sidebar-header">
+            <h2>Your Cart</h2>
+            <button onclick="toggleCart()" class="close-btn">&times;</button>
+        </div>
+        <div id="cartItemsContainer"></div>
+        <div class="sidebar-footer">
+            <div class="total-row"><span>Total:</span><span id="cartTotalDisplay">DT0.00</span></div>
+            <button class="checkout-btn">Checkout</button>
+        </div>
+    </div>
+    <div id="cartOverlay" onclick="toggleCart()"></div>
+
+    <nav class="navbar">
+        <div class="logo">IronForge</div>
+        <ul class="nav-links">
+            <li><a href="MainPage.html">Home</a></li>
+            <li><a href="equipment.html">Equipment</a></li>
+            <li><a href="apparel.html" style="color: #ff4500;">Apparel</a></li>
+            <li><a href="supplements.html">Supplements</a></li>
+        </ul>
+        <div class="nav-actions">
+            <a href="#">Log In</a>
+            <a href="javascript:void(0)" onclick="toggleCart()">Cart (0)</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <h1>IronForge Threads</h1>
+        <p>Engineered for the pump. Designed for the street.</p>
+    </header>
+
+    <section class="products">
+        <!-- 2. Keep this empty! script.js will fill it from Firebase -->
+        <div class="product-grid"></div>
+    </section>
+
+    <footer><p>&copy; 2026 IronForge Gym Store.</p></footer>
+
+    <!-- 3. The "Trigger" Script -->
+    <script type="module">
+        import { loadProducts } from './script.js';
+        // This tells the page to only load items where Category == "Apparel"
+        loadProducts("Apparel");
+    </script>
+</body>
+</html>
